@@ -1,6 +1,13 @@
 package strfns
 
 import (
+	"crypto/md5"
+	"crypto/rand"
+	"encoding/base64"
+	"fmt"
+	"io"
+	"math"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -29,8 +36,8 @@ func St3(tr string) string {
 	return tr
 }
 
-// TimeString 获取时间戳 字符串格式
-func TimeString() (name string) {
+// TimeStr 获取时间戳 字符串格式
+func TimeStr() (name string) {
 	name = strconv.FormatInt(time.Now().Unix(), 10)
 	return
 }
@@ -56,5 +63,58 @@ func SliceUnpeat(s1 []interface{}) (s2 []interface{}, l int) {
 	for k := range m {
 		s2 = append(s2, k)
 	}
+	return
+}
+
+// isMail ...
+func isMail(email string) (ok bool) {
+	if len(email) > 0 {
+		ok, _ = regexp.MatchString("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$", email)
+	}
+	return
+}
+
+// RandStr ... 随机字符串
+func RandStr() string {
+	by := make([]byte, 32)
+	if _, err := io.ReadFull(rand.Reader, by); err != nil {
+		return ``
+	}
+	return base64.URLEncoding.EncodeToString(by)
+}
+
+// RandPwd ... 系统自设密码时，字符转换， 可以是数字，字母，或者下划线 √√
+func RandPwd() string {
+	str := RandStr()
+	re := []string{` `, `-`, `,`, `.`, `/`, `\\`, `(`, `)`, `{`, `}`, `[`, `]`, `|`, `*`, `!`, `@`, `#`, `$`, `%`, `^`, `&`, `+`, `=`, `:`, `;`, `'`, `"`}
+	for _, v := range re {
+		str = strings.Replace(str, v, ``, -1)
+	}
+	str = str[12:19]
+	return str
+}
+
+// Md5 ...
+func Md5(s string) string {
+	w := md5.New()
+	io.WriteString(w, s)
+	return fmt.Sprintf("%x", w.Sum(nil))
+}
+
+// Ceil ... 向上取整
+func Ceil(i, n int64) (j int64) {
+	ii := float64(i)
+	nn := float64(n)
+	jj := math.Ceil(ii / nn)
+	j = int64(jj)
+	return
+}
+
+// Floor ... 向下取整
+func Floor(i, n int64) (j int64) {
+	ii := float64(i)
+	nn := float64(n)
+	jj := math.Floor(ii / nn)
+	j = int64(jj)
 	return
 }
