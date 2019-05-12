@@ -1,4 +1,4 @@
-package strhandle
+package strfn
 
 import "strings"
 
