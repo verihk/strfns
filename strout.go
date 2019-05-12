@@ -1,4 +1,4 @@
-package strfn
+package strfns
 
 import "strings"
 
