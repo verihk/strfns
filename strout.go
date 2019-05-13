@@ -4,10 +4,12 @@ import (
 	"crypto/md5"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/csv"
 	"fmt"
 	"io"
 	"math"
 	"net/smtp"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -202,5 +204,13 @@ func NewPagination(now, num, row int64, url string) (p *Pagination) {
 		}
 		p.Pb = now*row + 1
 	}
+	return
+}
+
+// ReadCsv ... 读取 csv文件
+func ReadCsv(file string) (tr [][]string) {
+	r, _ := os.Open(file)
+	read := csv.NewReader(r)
+	tr, _ = read.ReadAll()
 	return
 }
