@@ -8,7 +8,6 @@ import (
 	"io"
 	"math"
 	"net/smtp"
-	"project_quaic/quaic_1/models"
 	"regexp"
 	"strconv"
 	"strings"
@@ -167,7 +166,7 @@ func NewPagination(now, num, row int64, url string) (p *Pagination) {
 		p.Page = 0
 		p.Num = 0
 	} else {
-		p.Page = models.GetInt(num, row) // 查询总页数
+		p.Page = Ceil(num, row) // 查询总页数
 		pages := make([]bool, p.Page)
 		pages[now] = true
 
