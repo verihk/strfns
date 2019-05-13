@@ -79,8 +79,8 @@ func SliceUnpeat(s1 []interface{}) (s2 []interface{}, l int) {
 	return
 }
 
-// isMail ...
-func isMail(email string) (ok bool) {
+// IsMail ...
+func IsMail(email string) (ok bool) {
 	if len(email) > 0 {
 		ok, _ = regexp.MatchString("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$", email)
 	}
