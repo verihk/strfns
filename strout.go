@@ -51,10 +51,17 @@ func St3(tr string) string {
 	return tr
 }
 
-// TimeStr 获取时间戳 字符串格式
+// TimeStr 获取时间戳 字符串格式, 10 位
 func TimeStr() (name string) {
 	name = strconv.FormatInt(time.Now().Unix(), 10)
 	return
+}
+
+// CheckStr 验证码 4位文本格式的数字
+func CheckStr(str string) string {
+	n := len(str) - 4
+	str = string([]rune(str)[n:])
+	return str
 }
 
 // Slice2Map ...
@@ -212,5 +219,22 @@ func ReadCsv(file string) (tr [][]string) {
 	r, _ := os.Open(file)
 	read := csv.NewReader(r)
 	tr, _ = read.ReadAll()
+	return
+}
+
+// StrTime 转字符串 为 时间
+func StrTime(s string, n int8) (t time.Time, err error) {
+	var timeLayout string
+	switch n {
+	case 1:
+		timeLayout = "2006-01-02 00:00:00"
+
+	default: // 0
+		timeLayout = "2006-01-02"
+	}
+	// timeLayout := "2006-01-02 00:00:00"
+	// timeLayout := "2006-01-02"
+	loc, _ := time.LoadLocation("Local")
+	t, err = time.ParseInLocation(timeLayout, s, loc)
 	return
 }
