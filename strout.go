@@ -30,6 +30,7 @@ type Pagination struct {
 
 // St1 替换所有非字符串
 func St1(tr string) string {
+	tr = strings.TrimSpace(tr)
 	re := []string{` `, `_`, `-`, `,`, `.`, `/`, `\\`, `(`, `)`, `{`, `}`, `[`, `]`, `|`, `*`, `!`, `@`, `#`, `$`, `%`, `^`, `&`, `+`, `=`, `:`, `;`, `'`, `"`}
 	for _, v := range re {
 		tr = strings.Replace(tr, v, ``, -1)
@@ -39,6 +40,7 @@ func St1(tr string) string {
 
 // St2 替换 空格 和 ','
 func St2(tr string) string {
+	tr = strings.TrimSpace(tr)
 	// tr = strings.Replace(tr, ` `, ``, -1)
 	tr = St3(tr)
 	tr = strings.Replace(tr, `,`, `;`, -1)
@@ -47,6 +49,7 @@ func St2(tr string) string {
 
 // St3 替换 空格
 func St3(tr string) string {
+	tr = strings.TrimSpace(tr)
 	tr = strings.Replace(tr, ` `, ``, -1)
 	return tr
 }
