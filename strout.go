@@ -99,6 +99,15 @@ func IsMail(email string) (ok bool) {
 	return
 }
 
+// IsPassword ...密码至少6位，可以包含数字、字母或者下划线
+func IsPassword(pwd string) (ok bool) {
+	if len(pwd) > 0 {
+		// ok, _ = regexp.MatchString("/(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[_])^([0-9a-zA-Z_]{6,}$)/", pwd)
+		ok, _ = regexp.MatchString("^[0-9a-zA-Z_]{6,}$", pwd)
+	}
+	return
+}
+
 // RandStr ... 随机字符串
 func RandStr() string {
 	by := make([]byte, 32)
@@ -239,5 +248,82 @@ func StrTime(s string, n int8) (t time.Time, err error) {
 	// timeLayout := "2006-01-02"
 	loc, _ := time.LoadLocation("Local")
 	t, err = time.ParseInLocation(timeLayout, s, loc)
+	return
+}
+
+// Howeeks 距离现在多少周
+// func main() {
+// 	fmt.Println(Howeeks("29 JAN 20"))
+// }
+func Howeeks(s string) string {
+	t1 := time.Now()                            // 现在的时间
+	t2, _ := StrTime(s2t(s), 0)                 // 以后的某一天 "29 JAN 20"
+	w := math.Ceil(t2.Sub(t1).Hours() / 24 / 7) // float64
+	// return strconv.FormatFloat(w, 'E', -1, 64)  // string
+	return strconv.Itoa(int(w))
+}
+
+// s2t “距离现在多少周” 程序中关于“日-月-年”的格式输出 "29 JAN 20" ： 2020-01-29
+func s2t(s string) (t string) {
+	ss := strings.Split(s, ` `)
+	t = "20" + ss[2] + "-" + m2m(ss[1]) + "-" + d2d(ss[0])
+	return
+}
+
+// m2m “距离现在多少周” 程序中关于月份的格式输出
+func m2m(t string) (n string) {
+	mon := map[string]string{
+		"JAN": "01",
+		"FEB": "02",
+		"MAR": "03",
+		"APR": "04",
+		"MAY": "05",
+		"JUN": "06",
+		"JUL": "07",
+		"AUG": "08",
+		"SEP": "09",
+		"OCT": "10",
+		"NOV": "11",
+		"DEC": "12",
+	}
+	n = mon[t]
+	return
+}
+
+func d2d(d string) (t string) {
+	day := map[string]string{
+		"1":  "01",
+		"2":  "02",
+		"3":  "03",
+		"4":  "04",
+		"5":  "05",
+		"6":  "06",
+		"7":  "07",
+		"8":  "08",
+		"9":  "09",
+		"10": "10",
+		"11": "11",
+		"12": "12",
+		"13": "13",
+		"14": "14",
+		"15": "15",
+		"16": "16",
+		"17": "17",
+		"18": "18",
+		"19": "19",
+		"20": "20",
+		"21": "21",
+		"22": "22",
+		"23": "23",
+		"24": "24",
+		"25": "25",
+		"26": "26",
+		"27": "27",
+		"28": "28",
+		"29": "29",
+		"30": "30",
+		"31": "31",
+	}
+	t = day[d]
 	return
 }
