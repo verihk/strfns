@@ -290,6 +290,7 @@ func m2m(t string) (n string) {
 	return
 }
 
+// d2d 日期格式化 ...
 func d2d(d string) (t string) {
 	day := map[string]string{
 		"1":  "01",
